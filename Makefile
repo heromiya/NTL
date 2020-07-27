@@ -15,7 +15,7 @@ $(QF_Cloud_Mask): $(IN_HDF)
 # Extracting the cloud mask (Probably Cloudy and Confident Cloudy)
 $(CloudMask): $(QF_Cloud_Mask)
 	mkdir -p `dirname $@`
-	./extractFlag.py $< $@
+	python ./extractFlag.py $< $@
 
 # Moon illumination fraction
 $(MoonFraction): $(IN_HDF)

@@ -14,6 +14,13 @@ getNTL() {
     export TILE=$3
     export DOY03d=$(printf %03d $DOY)
     mkdir -p hdf/$YEAR/$DOY03d
+
+    if [ -e hdf/$YEAR/$DOY03d/VNP46A1.A${YEAR}$DOY03d.$TILE.001.*.h5 ]; then
+	gdalinfo hdf/$YEAR/$DOY03d/VNP46A1.A${YEAR}$DOY03d.$TILE.001.*.h5 > /dev/null
+	if [ $? -ne 0 ]; then
+	    rm hdf/$YEAR/$DOY03d/VNP46A1.A${YEAR}$DOY03d.$TILE.001.*.h5
+	fi
+    fi
     
     if [ ! -e hdf/$YEAR/$DOY03d/VNP46A1.A${YEAR}$DOY03d.$TILE.001.*.h5 ]; then
 	wget -q -e robots=off -m -np -R .html,.tmp -nH --cut-dirs=3 "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5000/VNP46A1/${YEAR}/$DOY03d/" --header "Authorization: Bearer 092F4048-9676-11EA-BFF9-AD357E92A282" -P hdf/$YEAR/$DOY03d --accept-regex=.*$TILE.* -nd
@@ -38,9 +45,10 @@ export -f getNTL
 #    export TILE
 #    for DOY in {1..195}; do
 
-INPUT_TILES="`h2{7..8}v07` h10v04 h29v05 h19v04 h13v11 h17v04 h10v05 h08v04"
+#INPUT_TILES="`h2{7..8}v07` h10v04 h29v05 h19v04 h13v11 h17v04 h10v05 h08v04"
+INPUT_TILES=h31v05
 
-#parallel --bar getNTL ::: 2020 ::: {1..195} ::: $INPUT_TILES
-parallel --bar getNTL ::: 2019 ::: {335..365} ::: $INPUT_TILES
-
+parallel getNTL ::: 2020 ::: {1..207} ::: $INPUT_TILES
+parallel getNTL ::: 2019 ::: {329..365} ::: $INPUT_TILES
+# --bar
 #done
