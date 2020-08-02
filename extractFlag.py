@@ -21,7 +21,11 @@ dst_ds.SetProjection(src_ds.GetProjection())
 srcband = src_ds.GetRasterBand(1)
 
 # extract bits for cloud masks
-dataraster = numpy.where( (numpy.vectorize(numpy.binary_repr)(srcband.ReadAsArray()).astype(numpy.int) / 1000000) % 100 >= 10, numpy.nan, 1)
+#dataraster = numpy.where( (numpy.vectorize(numpy.binary_repr)(srcband.ReadAsArray()).astype(numpy.int) / 1000000) % 100 >= 10, numpy.nan, 1)
+dataraster = numpy.where( ((numpy.vectorize(numpy.binary_repr)(srcband.ReadAsArray()).astype(numpy.int) / 1000000) % 100 >= 11)
+                          & ((numpy.vectorize(numpy.binary_repr)(srcband.ReadAsArray()).astype(numpy.int) / 10000) % 100 <= 1)
+                          , numpy.nan, 1)
+
 
 #Rplace the nan value with the predefiend noDataValue
 dataraster[numpy.isnan(dataraster)]=noDataValue

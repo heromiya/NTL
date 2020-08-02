@@ -24,9 +24,9 @@ $(MoonFraction): $(IN_HDF)
 	gdal_translate -q -of VRT -co COMPRESS=Deflate -a_srs EPSG:4326 -a_ullr $(COORDS) HDF5:"`basename $<`"://HDFEOS/GRIDS/VNP_Grid_DNB/Data_Fields/Moon_Illumination_Fraction `basename $@`
 
 # Combine the NTL, cloud mask, and moon illumination
-$(OUT_GTIF): $(Radiance) $(CloudMask) $(MoonFraction)
+$(OUT_GTIF): $(Radiance) $(CloudMask)
 	mkdir -p `dirname $@`
-	gdal_calc.py --quiet -A $(Radiance) -B $(CloudMask) -C $(MoonFraction) --co=COMPRESS=Deflate --calc="where(isnan(B),nan,A*(1-C.astype(float)/10000))" --outfile=$@
+	gdal_calc.py --quiet -A $(Radiance) -B $(CloudMask) --co=COMPRESS=Deflate --calc="where(isnan(B),nan,A)" --outfile=$@
 
 $(VRT): $(CALC_OPT)
 	mkdir -p `dirname $@`

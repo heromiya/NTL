@@ -3,7 +3,7 @@ export TIF_DIR=outGTiff
 #rm -rf $CALC_DIR $CALC_DIR.vrt.d
 #mkdir -p $CALC_DIR $CALC_DIR.vrt.d
  
-export DAYNUM=30
+export DAYNUM=15
 
 calcMedian(){
     export YEAR=$1
@@ -35,14 +35,12 @@ calcMedian(){
 }
 export -f calcMedian
 
-
 #for TILE in h2{7..8}v07 h10v04 h29v05 h19v04 h13v11 h17v04 h10v05 h08v04; do
 #    export TILE
 
 #INPUT_TILES="`echo h2{7..8}v07` h10v04 h29v05 h19v04 h13v11 h17v04 h10v05 h08v04"
-INPUT_TILES=h31v05
-parallel calcMedian ::: 2020 ::: {0..6} ::: $INPUT_TILES
-parallel calcMedian ::: 2019 ::: 11 ::: $INPUT_TILES
+INPUT_TILES="h31v05 h32v05"
+parallel calcMedian ::: 2020 ::: {0..13} ::: $INPUT_TILES
+parallel calcMedian ::: 2019 ::: 22 23 ::: $INPUT_TILES
 # --bar
 #for T in 12; do calcMedian $T; done
-
