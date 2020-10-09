@@ -45,10 +45,7 @@ export -f getNTL
 #    export TILE
 #    for DOY in {1..195}; do
 
-#INPUT_TILES="`h2{7..8}v07` h10v04 h29v05 h19v04 h13v11 h17v04 h10v05 h08v04"
-INPUT_TILES="h31v05 h32v05"
 
-parallel getNTL ::: 2020 ::: {1..208} ::: $INPUT_TILES
-parallel getNTL ::: 2019 ::: {329..365} ::: $INPUT_TILES
-# --bar
+parallel getNTL ::: 2020 ::: ${PERIOD_2019} ::: $INPUT_TILES
+parallel getNTL ::: 2019 ::: ${PERIOD_2020} ::: $INPUT_TILES
 #done

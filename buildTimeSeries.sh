@@ -1,6 +1,6 @@
 #! /bin/bash
 
-export DAYNUM=15
+#export DAYNUM=30
 
 buildTS() {
     YEAR=$1
@@ -10,8 +10,8 @@ buildTS() {
 }
 export -f buildTS
 
-parallel buildTS ::: 2019 ::: 22 23
-parallel buildTS ::: 2020 ::: {0..13}
+parallel buildTS ::: 2019 ::: ${TIMES_2019}
+parallel buildTS ::: 2020 ::: ${TIMES_2020}
 
 gdalbuildvrt -q -separate -overwrite median.$DAYNUM.tif.vrt $(find median.$DAYNUM.tif.d -type f -regex ".*\.vrt$" | sort)
 gdal_translate -co COMPRESS=Deflate -co BIGTIFF=YES median.$DAYNUM.tif.vrt median.$DAYNUM.tif
@@ -24,15 +24,9 @@ buildTSCloud(){
     gdalbuildvrt -q -overwrite $VRT hdf/$YEAR/$T03d/*.CloudMask.tif
 }
 export -f buildTSCloud
-#for T in {329..365}; do
-parallel buildTSCloud ::: 2019 ::: {329..365}
-#done
-
-#for T in {1..207}; do
-parallel buildTSCloud ::: 2020 ::: {1..207}
-#done
+parallel buildTSCloud ::: 2019 ::: ${PERIOD_2019}
+parallel buildTSCloud ::: 2020 ::: ${PERIOD_2020}
 
 find hdf/ -type f -regex ".*CloudMask.vrt" > CloudMask.lst
 gdalbuildvrt -q -separate -overwrite -input_file_list CloudMask.lst CloudMask.vrt
 gdal_translate -co COMPRESS=Deflate -co BIGTIFF=YES CloudMask.vrt CloudMask.tif
-

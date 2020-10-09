@@ -23,6 +23,20 @@
 
 export PATH=/home/7/17IA0902/anaconda3/bin/:$PATH
 export PROJ_LIB=/gs/hs0/tgh-20IAV/miyazaki/proj
+export INPUT_TILES="h{29..30}v{07..08}"
+
+export PERIOD_2019="{329..365}"
+export TIMES_2019=11
+
+export PERIOD_2020="{1..282}"
+export TIMES_2020="{0..8}"
+
+export DAYNUM=30
+
 bash -x getNTL.sh
 bash -x cal_median.sh
 bash -x buildTimeSeries.sh
+
+
+#INPUT_TILES="`h2{7..8}v07` h10v04 h29v05 h19v04 h13v11 h17v04 h10v05 h08v04"
+#INPUT_TILES="h31v05 h32v05"
