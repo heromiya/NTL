@@ -23,7 +23,7 @@ getNTL() {
     fi
     
     if [ ! -e hdf/$YEAR/$DOY03d/VNP46A1.A${YEAR}$DOY03d.$TILE.001.*.h5 ]; then
-	wget -q -e robots=off -m -np -R .html,.tmp -nH --cut-dirs=3 "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5000/VNP46A1/${YEAR}/$DOY03d/" --header "Authorization: Bearer 092F4048-9676-11EA-BFF9-AD357E92A282" -P hdf/$YEAR/$DOY03d --accept-regex=.*$TILE.* -nd
+	wget --no-check-certificate -q -e robots=off -m -np -R .html,.tmp -nH --cut-dirs=3 "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/5000/VNP46A1/${YEAR}/$DOY03d/" --header "Authorization: Bearer 9F1C6012-0A53-11EB-9E3A-A1B02ADBF251" -P hdf/$YEAR/$DOY03d --accept-regex=.*$TILE.* -nd
     fi
     
     export IN_HDF=$(find hdf/$YEAR/$DOY03d/VNP46A1.A${YEAR}$DOY03d.$TILE.001.*.h5)
@@ -41,11 +41,8 @@ getNTL() {
 }
 export -f getNTL
 
-#for TILE in h2{7..8}v07 h10v04 h29v05 h19v04 h13v11 h17v04 h10v05 h08v04; do
-#    export TILE
-#    for DOY in {1..195}; do
+parallel getNTL ::: 2019 ::: ${PERIOD_2019} ::: $INPUT_TILES
+parallel getNTL ::: 2020 ::: ${PERIOD_2020} ::: $INPUT_TILES
 
-
-parallel getNTL ::: 2020 ::: ${PERIOD_2019} ::: $INPUT_TILES
-parallel getNTL ::: 2019 ::: ${PERIOD_2020} ::: $INPUT_TILES
-#done
+#for TILE in $INPUT_TILES; do for DAY in $PERIOD_2019; do getNTL 2019 $DAY $TILE; done; done
+#for TILE in $INPUT_TILES; do for DAY in $PERIOD_2020; do getNTL 2020 $DAY $TILE; done; done

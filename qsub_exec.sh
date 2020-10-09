@@ -18,18 +18,20 @@
 #echo "### $(date +'%F_%T')" >> $LOG
 . /etc/profile.d/modules.sh
 #module load intel cuda/9.0.176 nccl/2.4.2 cudnn/7.4 tensorflow/1.12.0
-. /home/7/17IA0902/anaconda3/etc/profile.d/conda.sh
-#/home/7/17IA0902/anaconda3/bin/python train.py
+. /home/7/17IA0902/miniconda3/etc/profile.d/conda.sh
 
-export PATH=/home/7/17IA0902/anaconda3/bin/:$PATH
+export PATH=/home/7/17IA0902/miniconda3/bin/:$PATH
+#export PATH=/home/7/17IA0902/apps/bin:$PATH
+#export LD_LIBRARY_PATH=/home/7/17IA0902/apps/lib
 export PROJ_LIB=/gs/hs0/tgh-20IAV/miyazaki/proj
-export INPUT_TILES="h{29..30}v{07..08}"
 
-export PERIOD_2019="{329..365}"
+export INPUT_TILES=$(echo h{29..30}v{07..08})
+
+export PERIOD_2019=$(echo {329..365})
 export TIMES_2019=11
 
-export PERIOD_2020="{1..282}"
-export TIMES_2020="{0..8}"
+export PERIOD_2020=$(echo {1..282})
+export TIMES_2020=$(echo {0..8})
 
 export DAYNUM=30
 
